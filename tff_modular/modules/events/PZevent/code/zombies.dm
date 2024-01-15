@@ -27,16 +27,20 @@
 	. = ..()
 	AddElement(/datum/element/wall_tearer, tear_time = 14 SECONDS, reinforced_multiplier = 1000, do_after_key = "DOAFTER_SOURCE_EVENT_ZOMBIE_INTERACTION")
 
+/mob/living/simple_animal/hostile/zombie/engineer/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/wall_tearer, tear_time = 7 SECONDS, reinforced_multiplier = 1000, do_after_key = "DOAFTER_SOURCE_EVENT_ZOMBIE_INTERACTION")
+
 /mob/living/simple_animal/hostile/zombie/doctor
-	speed = 1
+	speed = 0.8
 	outfit = /datum/outfit/zombie/doctor
 
 /mob/living/simple_animal/hostile/zombie/clown
-	speed = 3
+	speed = 5
 	melee_damage_lower = 1
 	melee_damage_upper = 55
-	maxHealth = "550"
-	health = "550"
+	maxHealth = "750"
+	health = "750"
 	attack_verb_continuous = "honks"
 	attack_verb_simple = "honk"
 	attack_sound = 'sound/items/bikehorn.ogg'
@@ -97,6 +101,7 @@
 	class_description = "А это местный медленный танк. Нажрался трупов вот и жирный."
 	suit_store = /obj/item/tank/internals/oxygen
 	back = /obj/item/mod/control/pre_equipped/cosmohonk
+	mask = /obj/item/clothing/mask/gas/clown_hat
 	internals_slot = ITEM_SLOT_SUITSTORE
 
 /obj/machinery/zombie
@@ -140,7 +145,6 @@
 
 		for(var/key in zombie_gear)
 			var/datum/outfit/zombie/class = zombie_gear[key]
-			zclass = zombie_gear[key]
 			var/datum/radial_menu_choice/option = new
 			option.image  = image(icon = initial(class.icon), icon_state = initial(class.icon_state))
 			option.info = span_boldnotice("[initial(class.class_description)]")
