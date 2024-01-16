@@ -23,13 +23,35 @@
 	del_on_death = TRUE
 	loot = list(/obj/effect/decal/remains/human)*/
 
-/mob/living/simple_animal/hostile/zombie/Initialize(mapload)
+/mob/living/simple_animal/hostile/zombie
+	maxHealth = 200
+	health = 200
+	faction = list(ROLE_MUTANT)
+	unique_name = TRUE
+	initial_language_holder = /datum/language_holder/empty
+	stat_attack = HARD_CRIT
+	robust_searching = TRUE
+	footstep_type = FOOTSTEP_MOB_CLAW
+	wound_bonus = -5
+	bare_wound_bonus = 10
+	sharpness = SHARP_EDGED
+
+/mob/living/simple_animal/hostile/zombie/assistant/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/wall_tearer, tear_time = 14 SECONDS, reinforced_multiplier = 1000, do_after_key = "DOAFTER_SOURCE_EVENT_ZOMBIE_INTERACTION")
 
 /mob/living/simple_animal/hostile/zombie/engineer/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/wall_tearer, tear_time = 7 SECONDS, reinforced_multiplier = 1000, do_after_key = "DOAFTER_SOURCE_EVENT_ZOMBIE_INTERACTION")
+
+/mob/living/simple_animal/hostile/zombie/doctor/Initialize(mapload)
+	. = ..()
+	AddComponent( \
+		/datum/component/regenerator, \
+		regeneration_delay = 6 SECONDS, \
+		brute_per_second = 5, \
+		heals_wounds = TRUE, \
+	)
 
 /mob/living/simple_animal/hostile/zombie/doctor
 	speed = 0.8
@@ -39,8 +61,8 @@
 	speed = 5
 	melee_damage_lower = 1
 	melee_damage_upper = 55
-	maxHealth = "750"
-	health = "750"
+	maxHealth = 750
+	health = 750
 	attack_verb_continuous = "honks"
 	attack_verb_simple = "honk"
 	attack_sound = 'sound/items/bikehorn.ogg'
