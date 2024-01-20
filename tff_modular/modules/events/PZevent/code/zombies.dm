@@ -23,6 +23,24 @@
 	del_on_death = TRUE
 	loot = list(/obj/effect/decal/remains/human)*/
 
+/mob/living/basic/seedling/defender
+	maxHealth = 200
+	health = 200
+	faction = list(FACTION_NEUTRAL)
+	ai_controller = /datum/ai_controller/basic_controller/seedling/meanie
+	seedling_commands = list(
+		/datum/pet_command/idle,
+		/datum/pet_command/free,
+		/datum/pet_command/follow,
+		/datum/pet_command/point_targeting/attack,
+		/datum/pet_command/point_targeting/use_ability/solarbeam,
+		/datum/pet_command/point_targeting/use_ability/rapidseeds,
+	)
+
+/obj/item/seeds/seedling/defender
+	product = /mob/living/basic/seedling/defender
+	icon_state = "seed-seedling-defender"
+
 /mob/living/simple_animal/hostile/zombie
 	maxHealth = 200
 	health = 200

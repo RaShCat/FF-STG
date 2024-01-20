@@ -69,6 +69,27 @@
 		return
 
 	if(!ishuman(arrived))
+		if(!ismob(arrived))
+			return
+		var/mob/living/digitigrade_fan = arrived
+		var/damage = rand(min_damage, max_damage)
+		if(!(flags & CALTROP_SILENT) && !digitigrade_fan.has_status_effect(/datum/status_effect/caltropped))
+			digitigrade_fan.apply_status_effect(/datum/status_effect/caltropped)
+			digitigrade_fan.visible_message(
+			span_danger("[digitigrade_fan] steps on [parent]."),
+			span_userdanger("You step on [parent]!")
+		)
+
+		digitigrade_fan.apply_damage(damage, BRUTE, null, wound_bonus = CANT_WOUND, attacking_item = parent)
+
+		if(!(flags & CALTROP_NOSTUN)) // Won't set off the paralysis.
+			if(!HAS_TRAIT(digitigrade_fan, TRAIT_LIGHT_STEP))
+				digitigrade_fan.Paralyze(paralyze_duration)
+			else
+				digitigrade_fan.Knockdown(paralyze_duration)
+		if(!soundfile)
+			return
+		playsound(digitigrade_fan, soundfile, 15, TRUE, -3)
 		return
 
 	var/mob/living/carbon/human/digitigrade_fan = arrived
