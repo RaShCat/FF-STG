@@ -27,7 +27,6 @@ GLOBAL_LIST_EMPTY(day_lights)
 		return
 	var/area/area = GLOB.areas_by_type[/area/centcom/interlink]
 	for(var/turf/area_turf as anything in area.get_contained_turfs())
-
 		for(var/obj/effect/light_emitter/light in area_turf)
 			if(GLOB.is_night_toggled)
 				light.set_light(4, 0.5, "#F9DFCF")

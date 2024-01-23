@@ -23,6 +23,14 @@
 	del_on_death = TRUE
 	loot = list(/obj/effect/decal/remains/human)*/
 
+/mob/living/simple_animal/hostile/zombie/Initialize(mapload)
+	. = ..()
+	RegisterSignals(src, list(COMSIG_MOVABLE_Z_CHANGED), PROC_REF(sun_fire))
+
+/mob/living/simple_animal/hostile/zombie/proc/sun_fire()
+	SIGNAL_HANDLER
+	dust()
+
 /mob/living/basic/seedling/defender
 	maxHealth = 200
 	health = 200
