@@ -3,7 +3,7 @@ GLOBAL_LIST_INIT(PoZ_verbs, list(
 	/client/proc/toggle_day_night
 	))
 GLOBAL_PROTECT(PoZ_verbs)
-GLOBAL_VAR_INIT(is_night_toggled, FALSE)
+GLOBAL_VAR_INIT(is_night, FALSE)
 GLOBAL_LIST_EMPTY(day_lights)
 
 /obj/effect/light_emitter/interlink/Initialize(mapload)
@@ -19,6 +19,7 @@ GLOBAL_LIST_EMPTY(day_lights)
 	set category = "PoZ"
 	if(!check_rights(R_ADMIN))
 		return
+	to_chat(src, span_warning("Zombies:" + length(GLOB.zombie_list)))
 
 /client/proc/toggle_day_night()
 	set name = "Toggle Day|Night"
@@ -26,14 +27,23 @@ GLOBAL_LIST_EMPTY(day_lights)
 	if(!check_rights(R_ADMIN))
 		return
 	var/area/area = GLOB.areas_by_type[/area/centcom/interlink]
-	for(var/turf/area_turf as anything in area.get_contained_turfs())
-		for(var/obj/effect/light_emitter/light in area_turf)
-			if(GLOB.is_night_toggled)
-				light.set_light(4, 0.5, "#F9DFCF")
-			else
-				light.set_light(0.1, 0.1, "#BAACC7")
-			stoplag()
-	GLOB.is_night_toggled = !GLOB.is_night_toggled
+	for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
+		for(var/turf/area_turf as anything in zlevel_turfs)
+			if(GLOB.is_night)
+				for(var/mob/living/simple_animal/hostile/zombie/z in area_turf)
+					to_chat(z, span_warning("Oh. It was a sunlight!"))
+					z.dust(TRUE)
+			for(var/obj/effect/light_emitter/light in area_turf)
+				if(GLOB.is_night)
+					light.set_light(4, 0.5, "#F9DFCF")
+				else
+					light.set_light(0.1, 0.1, "#BAACC7")
+				stoplag()
+	GLOB.is_night = !GLOB.is_night
+	if(!GLOB.is_night)
+		for(var/mob/living/simple_animal/hostile/zombie/z in GLOB.zombie_under_sunlight)
+			to_chat(z, span_warning("Oh. It was a sunlight!"))
+			z.dust(TRUE)
 
 /client/New()
 	. = ..()

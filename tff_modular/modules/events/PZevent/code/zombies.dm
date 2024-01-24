@@ -23,13 +23,31 @@
 	del_on_death = TRUE
 	loot = list(/obj/effect/decal/remains/human)*/
 
+GLOBAL_LIST_EMPTY(zombie_list)
+GLOBAL_LIST_EMPTY(zombie_under_sunlight)
+
 /mob/living/simple_animal/hostile/zombie/Initialize(mapload)
 	. = ..()
+	GLOB.zombie_list += src
+	to_chat(world, "[get_area(src)], [GLOB.areas_by_type[/area/centcom/interlink]]")
+	if(istype(get_area(src), GLOB.areas_by_type[/area/centcom/interlink]))
+		GLOB.zombie_under_sunlight += src
+		src.isundersun = TRUE
 	RegisterSignals(src, list(COMSIG_MOVABLE_Z_CHANGED), PROC_REF(sun_fire))
+
+/mob/living/simple_animal/hostile/zombie/Destroy()
+	. = ..()
+	GLOB.zombie_list -= src
 
 /mob/living/simple_animal/hostile/zombie/proc/sun_fire()
 	SIGNAL_HANDLER
-	dust()
+	isundersun = !isundersun
+	if(isundersun)
+		GLOB.zombie_under_sunlight += src
+	else
+		GLOB.zombie_under_sunlight -= src
+	if(!GLOB.is_night && isundersun)
+		dust()
 
 /mob/living/basic/seedling/defender
 	maxHealth = 200
@@ -61,6 +79,8 @@
 	wound_bonus = -5
 	bare_wound_bonus = 10
 	sharpness = SHARP_EDGED
+
+	var/isundersun = FALSE
 
 /mob/living/simple_animal/hostile/zombie/assistant/Initialize(mapload)
 	. = ..()
