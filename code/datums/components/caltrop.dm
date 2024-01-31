@@ -69,6 +69,7 @@
 		return
 
 	if(!ishuman(arrived))
+		//THE FLUFFY FRONTIER - POZ EVENT
 		if(!ismob(arrived))
 			return
 		var/mob/living/digitigrade_fan = arrived
@@ -90,6 +91,7 @@
 		if(!soundfile)
 			return
 		playsound(digitigrade_fan, soundfile, 15, TRUE, -3)
+		//THE FLUFFY FRONTIER - POZ EVENT
 		return
 
 	var/mob/living/carbon/human/digitigrade_fan = arrived

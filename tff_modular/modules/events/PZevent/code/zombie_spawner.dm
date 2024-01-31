@@ -1,3 +1,11 @@
+/obj/machinery/zombie
+	name = "Zombie grave"
+	desc = "Zombie spawner, you know."
+	icon = 'icons/obj/storage/crates.dmi'
+	icon_state = "grave"
+	density = TRUE
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+
 /obj/machinery/zombie/spawner
 	var/list/zombie_gear = list("Doctor" = /datum/outfit/zombie/doctor, "Assistant" = /datum/outfit/zombie/assistant, "Engineer" = /datum/outfit/zombie/engineer , "Clown" = /datum/outfit/zombie/clown)
 

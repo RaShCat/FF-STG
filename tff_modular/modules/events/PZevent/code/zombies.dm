@@ -29,7 +29,6 @@ GLOBAL_LIST_EMPTY(zombie_under_sunlight)
 /mob/living/simple_animal/hostile/zombie/Initialize(mapload)
 	. = ..()
 	GLOB.zombie_list += src
-	to_chat(world, "[get_area(src)], [GLOB.areas_by_type[/area/centcom/interlink]]")
 	if(istype(get_area(src), GLOB.areas_by_type[/area/centcom/interlink]))
 		GLOB.zombie_under_sunlight += src
 		src.isundersun = TRUE
@@ -119,7 +118,7 @@ GLOBAL_LIST_EMPTY(zombie_under_sunlight)
 	outfit = /datum/outfit/zombie/engineer
 
 /mob/living/simple_animal/hostile/zombie/assistant
-	speed = 0.5
+	speed = 0.35
 	outfit = /datum/outfit/zombie/assistant
 
 /datum/outfit/zombie
@@ -162,13 +161,7 @@ GLOBAL_LIST_EMPTY(zombie_under_sunlight)
 	mask = /obj/item/clothing/mask/gas/clown_hat
 	internals_slot = ITEM_SLOT_SUITSTORE
 
-/obj/machinery/zombie
-	name = "Zombie grave"
-	desc = "Zombie spawner, you know."
-	icon = 'icons/obj/storage/crates.dmi'
-	icon_state = "grave"
-	density = TRUE
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+
 
 
 

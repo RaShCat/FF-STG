@@ -19,13 +19,17 @@ GLOBAL_LIST_EMPTY(day_lights)
 	set category = "PoZ"
 	if(!check_rights(R_ADMIN))
 		return
-	to_chat(src, span_warning("Zombies:" + length(GLOB.zombie_list)))
+	to_chat(world, span_warning("Zombies: + [length(GLOB.zombie_list)]"))
 
 /client/proc/toggle_day_night()
+	var/started = FALSE
 	set name = "Toggle Day|Night"
 	set category = "PoZ"
 	if(!check_rights(R_ADMIN))
 		return
+	if(started)
+		return
+	started = TRUE
 	var/area/area = GLOB.areas_by_type[/area/centcom/interlink]
 	for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
 		for(var/turf/area_turf as anything in zlevel_turfs)
@@ -43,7 +47,9 @@ GLOBAL_LIST_EMPTY(day_lights)
 	if(!GLOB.is_night)
 		for(var/mob/living/simple_animal/hostile/zombie/z in GLOB.zombie_under_sunlight)
 			to_chat(z, span_warning("Oh. It was a sunlight!"))
+			GLOB.zombie_under_sunlight -= z
 			z.dust(TRUE)
+	started = FALSE
 
 /client/New()
 	. = ..()
