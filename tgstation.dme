@@ -8295,6 +8295,7 @@
 #include "tff_modular\modules\emotes\code\emotes.dm"
 #include "tff_modular\modules\emotes\code\laugh_datums.dm"
 #include "tff_modular\modules\emotes\code\scream_datums.dm"
+#include "tff_modular\modules\explorers_mod\code.dm"
 #include "tff_modular\modules\hair\code\hair.dm"
 #include "tff_modular\modules\holidays_decor\halloween\halloween-craft.dm"
 #include "tff_modular\modules\holidays_decor\halloween\halloween-decor.dm"
